@@ -163,6 +163,28 @@ public class Fov_RSC {
 				x++;
 			}
 			break;
+		case 6:   // SW
+			x = sourceX - (int)(startslope * depth);
+			y = sourceY + depth;
+			if(checkBounds(x, y)) {
+				while(getSlope(x, y, sourceX, sourceY) <= endslope) {
+					if(isVisible(x, y)) {
+						if(seeThrough[x][y]) {
+							if(testTile(x - 1, y, false)) {
+								startslope = -getSlope(x - .5, y + .5, sourceX, sourceY);
+							}
+						} else {
+							if(testTile(x - 1, y, true)) {
+								scan(depth + 1, octant, startslope, getSlope(x - .5, y - .5, sourceX, sourceY));
+							}
+						}
+						visibleMap[x][y] = true;
+					}
+					x++;
+				}
+				x--;
+			}
+			break;
 		}
 	}
 
