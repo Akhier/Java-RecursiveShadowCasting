@@ -119,6 +119,28 @@ public class Fov_RSC {
 				y--;
 			}
 			break;
+		case 4:   // ES
+			x = sourceX + depth;
+			y = sourceY + (int)(startslope * depth);
+			if(checkBounds(x, y)) {
+				while(getInvertedSlope(x, y, sourceX, sourceY) >= endslope) {
+					if(isVisible(x, y)) {
+						if(seeThrough[x][y]) {
+							if(testTile(x, y + 1, false)) {
+								startslope = getInvertedSlope(x + .5, y + .5, sourceX, sourceY);
+							}
+						} else {
+							if(testTile(x, y + 1, true)) {
+								scan(depth + 1, octant, startslope, getInvertedSlope(x - .5, y + .5, sourceX, sourceY));
+							}
+						}
+						visibleMap[x][y] = true;
+					}
+					y--;
+				}
+				y++;
+			}
+			break;
 		}
 	}
 
