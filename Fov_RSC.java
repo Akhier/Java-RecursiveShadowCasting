@@ -1,7 +1,7 @@
 /**
  * A class to check the field of view originating from a tile in a 2d tile map using recursive shadow casting as described on roguebasin
  * @author Akhier Dragonheart
- * @version 0.1
+ * @version 1.0
  */
 public class Fov_RSC {
 	private int width, height, sourceX, sourceY, range;
