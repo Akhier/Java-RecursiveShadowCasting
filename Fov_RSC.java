@@ -230,6 +230,21 @@ public class Fov_RSC {
 			}
 			break;
 		}
+		if(x < 0) {
+			x = 0;
+		}
+		if(x >= width) {
+			x = width - 1;
+		}
+		if(y < 0) {
+			y = 0;
+		}
+		if(y >= height) {
+			y = height - 1;
+		}
+		if(isVisible(x, y) && seeThrough[x][y]) {
+			scan(depth + 1, octant, startslope, endslope);
+		}
 	}
 
 	/**
