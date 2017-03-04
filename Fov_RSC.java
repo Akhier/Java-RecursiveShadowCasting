@@ -37,7 +37,7 @@ public class Fov_RSC {
 		seeThrough = seethrough;
 		visibleMap = new boolean[width][height];
 		visibleMap[sourcex][sourcey] = true;
-		for(int octant = 1; octant <= 9; octant++) {
+		for(int octant = 1; octant < 9; octant++) {
 			scan(1, octant, 1.0, 0.0);
 		}
 		return visibleMap;
@@ -205,6 +205,28 @@ public class Fov_RSC {
 					y--;
 				}
 				y++;
+			}
+			break;
+		case 8:   // WN
+			x = sourceX - depth;
+			y = sourceY - (int)(startslope * depth);
+			if(checkBounds(x, y)) {
+				while(getInvertedSlope(x, y, sourceX, sourceY) >= endslope) {
+					if(isVisible(x, y)) {
+						if(seeThrough[x][y]) {
+							if(testTile(x, y - 1, false)) {
+								startslope = getInvertedSlope(x - .5, y - .5, sourceX, sourceY);
+							}
+						} else {
+							if(testTile(x, y - 1, true)) {
+								scan(depth + 1, octant, startslope, getInvertedSlope(x + .5, y - .5, sourceX, sourceY));
+							}
+						}
+						visibleMap[x][y] = true;
+					}
+					y++;
+				}
+				y--;
 			}
 			break;
 		}
